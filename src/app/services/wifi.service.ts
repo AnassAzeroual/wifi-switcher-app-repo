@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { WifiWizard2 } from '@awesome-cordova-plugins/wifi-wizard-2/ngx';
 import { AlertService } from './alert.service';
+import { PermissionService } from './permission.service';
 
 export interface WifiNetwork {
   ssid: string;
@@ -13,7 +14,8 @@ export interface WifiNetwork {
 export class WifiService {
   constructor(
     private readonly wifi: WifiWizard2,
-    private readonly alertService: AlertService
+    private readonly alertService: AlertService,
+    private readonly permissionService: PermissionService
   ) {}
 
   /**
@@ -21,6 +23,12 @@ export class WifiService {
    */
   async scan(): Promise<WifiNetwork[]> {
     try {
+      // Check permissions first
+      const hasPermissions = await this.checkAndRequestPermissions();
+      if (!hasPermissions) {
+        throw new Error('Required permissions not granted');
+      }
+
       this.alertService.showLoading('Scanning for WiFi networks...');
       
       // trigger native scan
@@ -38,7 +46,17 @@ export class WifiService {
       }));
     } catch (error) {
       this.alertService.close();
-      await this.alertService.showError('Scan Failed', 'Failed to scan for WiFi networks. Please check your permissions.');
+      
+      // Provide more specific error messages
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      if (errorMessage.includes('permission') || errorMessage.includes('Permission')) {
+        await this.handlePermissionError();
+      } else {
+        await this.alertService.showError(
+          'Scan Failed', 
+          'Failed to scan for WiFi networks. This might be due to missing permissions or device restrictions.'
+        );
+      }
       throw error;
     }
   }
@@ -147,6 +165,84 @@ export class WifiService {
       this.alertService.close();
       await this.alertService.showError('Disconnect Failed', 'Failed to disconnect from network.');
       throw error;
+    }
+  }
+
+  /**
+   * Check and request permissions if needed
+   */
+  private async checkAndRequestPermissions(): Promise<boolean> {
+    try {
+      // First check if permissions are already granted
+      const hasPermissions = await this.permissionService.checkAllPermissions();
+      if (hasPermissions) {
+        return true;
+      }
+
+      // If not, request them
+      const granted = await this.permissionService.requestAllPermissions();
+      return granted;
+    } catch (error) {
+      console.error('Error checking permissions:', error);
+      return false;
+    }
+  }
+
+  /**
+   * Handle permission-related errors with helpful guidance
+   */
+  private async handlePermissionError(): Promise<void> {
+    const result = await this.alertService.showConfirmation(
+      'Permissions Required',
+      'WiFi scanning requires location and nearby device permissions. Would you like to see why these permissions are needed?',
+      'Learn More',
+      'Cancel'
+    );
+
+    if (result.isConfirmed) {
+      await this.permissionService.showPermissionExplanation();
+      
+      // Offer to open settings
+      const settingsResult = await this.alertService.showConfirmation(
+        'Grant Permissions',
+        'Would you like to open app settings to grant the required permissions manually?',
+        'Open Settings',
+        'Not Now'
+      );
+
+      if (settingsResult.isConfirmed) {
+        await this.permissionService.openAppSettings();
+      }
+    }
+  }
+
+  /**
+   * Initialize WiFi service and check permissions
+   */
+  async initialize(): Promise<boolean> {
+    try {
+      const hasPermissions = await this.checkAndRequestPermissions();
+      if (!hasPermissions) {
+        await this.alertService.showWarning(
+          'Setup Required',
+          'WiFi features require location permissions. Please grant permissions to use this app.'
+        );
+        return false;
+      }
+
+      await this.alertService.showSuccess(
+        'Ready!',
+        'WiFi Switcher is ready to use. You can now scan and connect to networks.'
+      );
+
+      return true;
+    } catch (error) {
+      console.error('Error initializing WiFi service:', error);
+      await this.alertService.showError(
+        'Initialization Failed',
+        'Failed to initialize WiFi service. Please restart the app.'
+      );
+      return false;
     }
   }
 }

@@ -158,4 +158,27 @@ export class AlertService {
       }
     });
   }
+
+  /**
+   * Show a scrollable content alert for long text
+   */
+  async showScrollableContent(
+    title: string,
+    content: string,
+    icon: SweetAlertIcon = 'info'
+  ): Promise<SweetAlertResult> {
+    return Swal.fire({
+      title,
+      html: `<div class="swal2-scrollable-content">${content}</div>`,
+      icon,
+      confirmButtonText: 'OK',
+      confirmButtonColor: '#3085d6',
+      customClass: {
+        popup: 'swal2-scrollable',
+        htmlContainer: 'swal2-scrollable-container'
+      },
+      width: '90vw',
+      heightAuto: false
+    });
+  }
 }

@@ -25,7 +25,7 @@ export class AppComponent {
       await this.wifi.scan()
         .then(list => this.networks = this.wifi.sortByStrength(list));
       await this.wifi.autoSwitch(this.known);
-    }, 5000);
+    }, 20000);
   }
 
 }

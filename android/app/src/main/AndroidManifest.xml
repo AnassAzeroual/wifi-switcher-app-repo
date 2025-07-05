@@ -30,8 +30,31 @@
         </provider>
     </application>
     <!-- Permissions -->
+    
+    <!-- Internet access -->
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    
+    <!-- WiFi State Permissions -->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    
+    <!-- Location Permissions (Required for WiFi scanning on Android 6.0+) -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    
+    <!-- Network State Permissions -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    
+    <!-- Background Location (for Android 10+) -->
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+    
+    <!-- Nearby WiFi Devices (Android 13+) -->
+    <uses-permission android:name="android.permission.NEARBY_WIFI_DEVICES" />
+    
+    <!-- Wake Lock (for keeping device awake during operations) -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    
+    <!-- Write Settings (for some WiFi operations) -->
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
 </manifest>
