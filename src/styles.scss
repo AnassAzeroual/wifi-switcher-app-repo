@@ -22,6 +22,106 @@
   line-height: 1.5 !important;
 }
 
+/* SweetAlert2 Height and Responsiveness Fixes */
+.swal2-popup {
+  width: 90vw !important;
+  max-width: 500px !important;
+  min-height: 200px !important;
+  max-height: 90vh !important;
+  padding: 1.5rem !important;
+  overflow-y: auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+}
+
+.swal2-container {
+  padding: 10px !important;
+  height: 100vh !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.swal2-content {
+  flex-grow: 1 !important;
+  overflow-y: auto !important;
+  max-height: 60vh !important;
+}
+
+.swal2-title {
+  font-size: 1.5rem !important;
+  margin-bottom: 1rem !important;
+  flex-shrink: 0 !important;
+}
+
+.swal2-actions {
+  margin-top: 1.5rem !important;
+  flex-shrink: 0 !important;
+}
+
+.swal2-confirm,
+.swal2-cancel {
+  padding: 0.75rem 1.5rem !important;
+  font-size: 1rem !important;
+  border-radius: 8px !important;
+  min-width: 100px !important;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .swal2-popup {
+    width: 95vw !important;
+    margin: 0 !important;
+    padding: 1rem !important;
+  }
+  
+  .swal2-title {
+    font-size: 1.25rem !important;
+  }
+  
+  .swal2-content {
+    font-size: 0.9rem !important;
+  }
+  
+  .swal2-confirm,
+  .swal2-cancel {
+    padding: 0.5rem 1rem !important;
+    font-size: 0.9rem !important;
+  }
+}
+
+/* Toast specific styles */
+.swal2-toast {
+  width: auto !important;
+  max-width: 350px !important;
+  min-height: auto !important;
+  padding: 0.75rem 1rem !important;
+}
+
+/* Loading spinner container */
+.swal2-loading .swal2-content {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 100px !important;
+}
+
+/* Input dialog styles */
+.swal2-input {
+  margin: 1rem 0 !important;
+  padding: 0.75rem !important;
+  border-radius: 8px !important;
+  border: 2px solid #e0e0e0 !important;
+  font-size: 1rem !important;
+}
+
+.swal2-input:focus {
+  border-color: #3880ff !important;
+  outline: none !important;
+  box-shadow: 0 0 0 3px rgba(56, 128, 255, 0.1) !important;
+}
+
 /* Dark mode support for SweetAlert2 */
 @media (prefers-color-scheme: dark) {
   .swal2-popup {
