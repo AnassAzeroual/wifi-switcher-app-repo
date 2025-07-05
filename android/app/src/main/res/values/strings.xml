@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">wifi-switcher</string>
+    <string name="title_activity_main">wifi-switcher</string>
+    <string name="package_name">com.example.wifiswitcher</string>
+    <string name="custom_url_scheme">com.example.wifiswitcher</string>
+</resources>
