@@ -1,1 +1,47 @@
 /* You can add global styles to this file, and also import other style files */
+
+/* SweetAlert2 Custom Styles for Error Handler */
+.error-alert-container {
+  z-index: 10000 !important;
+}
+
+.error-alert-popup {
+  border-radius: 12px !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3) !important;
+}
+
+.error-alert-title {
+  color: #721c24 !important;
+  font-weight: 600 !important;
+  font-size: 1.5rem !important;
+}
+
+.error-alert-content {
+  color: #444 !important;
+  font-size: 1rem !important;
+  line-height: 1.5 !important;
+}
+
+/* Dark mode support for SweetAlert2 */
+@media (prefers-color-scheme: dark) {
+  .swal2-popup {
+    background-color: #1e1e1e !important;
+    color: #ffffff !important;
+  }
+  
+  .swal2-title {
+    color: #ff6b6b !important;
+  }
+  
+  .swal2-content {
+    color: #cccccc !important;
+  }
+  
+  .swal2-confirm {
+    background-color: #d33 !important;
+  }
+  
+  .swal2-cancel {
+    background-color: #6c757d !important;
+  }
+}
